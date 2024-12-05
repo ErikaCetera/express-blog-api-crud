@@ -6,7 +6,7 @@ const index = (req, res) => {
     // Estrae i parametri di query dall'oggetto req.query
     const queryString = req.query.tags;
     // Inizializza postSend con l'intero array di post
-    let postSend = postsList
+    let postSend = postsList;
     // Filtra i post in base ai tag se specificati nella query
     if (queryString !== undefined) {
         postSend = postsList.filter((curPost) => curPost.tags.includes(queryString));
@@ -43,18 +43,18 @@ const show = (req, res) => {
 };
 
 
-//Funzione che gestisce la rotta POST che crea un nuovo post e lo aggiunge all'array dei posts
+// Funzione che gestisce la rotta POST che crea un nuovo post e lo aggiunge all'array dei posts
 const store = (req, res) => {
-    //debug
+    // debug
     console.log(req.body);
-    //    Richiesta del client con nuovo post
-     const newPost = req.body;
-    //    Trova l'indice dell'ultimo elemento dell'array
-    const lastPostIndex = postsList.length - 1
-    //    Preleva ultimo elemento
-    const lastPost = postsList[lastPostIndex]
+    // Richiesta del client con nuovo post
+    const newPost = req.body;
+    // Trova l'indice dell'ultimo elemento dell'array
+    const lastPostIndex = postsList.length - 1;
+    // Preleva ultimo elemento
+    const lastPost = postsList[lastPostIndex];
     // Aggiunge la proprietà id al nuovo post partendo dall'ultimo +1
-    newPost.id = lastPost.id + 1
+    newPost.id = lastPost.id + 1;
     // Aggiunge nuovo post all'array
     postsList.push(newPost);
     // Restituisce codice 201 (elemento creato) e nuovo post
@@ -65,9 +65,34 @@ const store = (req, res) => {
     });
 };
 
+
+// Funzione che gestisce la rotta PUT che modifica le preprieta di un oggetto (id escluso)
 const update = (req, res) => {
-    const postId = req.params.id;
-    res.json("modifica e sovrascrive tutte le proprietà di un elemento con id:" + postId)
+    // preleva parametro e lo converte in numero
+    const postId = parseInt(req.params.id);
+    // Richiesta del client con modifiche da effettuare
+    const postUpdate = req.body;
+    // Trova l'indice del post da modificare
+    const postIndex = postsList.findIndex((curPost) => curPost.id === postId);
+    // Se l'indice inserto non porta a nessun riscontro e restituisce -1
+    if (postIndex === -1) {
+        // Restituisce errore
+        res.json({
+            error: true,
+            message: "Post non trovato"
+        });
+     // Altrimenti
+    } else {
+        // Aggiunge lo stesso indice al post
+        postUpdate.id = postId;
+        // Assegna alla stessa posizione il post modificato (sostituisce)
+        postsList[postIndex] = postUpdate;
+        // Restituisce post modificato
+        res.json({
+            message: `post con id ${postId} modificato`,
+            postUpdate
+        });
+    };
 };
 
 const modify = (req, res) => {
