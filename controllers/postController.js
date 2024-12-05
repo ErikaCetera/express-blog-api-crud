@@ -4,12 +4,12 @@ const postsList = require('../data');
 // Funzione per gestire la rotta GET e filtrare i post in base ai tag
 const index = (req, res) => {
     // Estrae i parametri di query dall'oggetto req.query
-    const queryString = req.query;
+    const queryString = req.query.tags;
     // Inizializza postSend con l'intero array di post
     let postSend = postsList
     // Filtra i post in base ai tag se specificati nella query
-    if (queryString.tags !== undefined) {
-        postSend = postsList.filter((curPost) => curPost.tags.includes(queryString.tags))
+    if (queryString !== undefined) {
+        postSend = postsList.filter((curPost) => curPost.tags.includes(queryString));
     };
     // Crea un oggetto data con i post filtrati e il conteggio
     const data = {
@@ -20,6 +20,8 @@ const index = (req, res) => {
     res.json(data);
 };
 
+
+// Funzione per gestire la rotta GET per mostrare uno specifico elenento in base all'id
 const show = (req, res) => {
     // preleva parametro e lo converte in numero
     const postId = parseInt(req.params.id);
@@ -38,11 +40,29 @@ const show = (req, res) => {
         // restituisce il post corrispondente
         res.json(post);
     }
-
 };
 
-const create = (req, res) => {
-    res.json("aggiunge un nuovo elemento")
+
+//Funzione che gestisce la rotta POST che crea un nuovo post e lo aggiunge all'array dei posts
+const store = (req, res) => {
+    //debug
+    console.log(req.body);
+    //    Richiesta del client con nuovo post
+     const newPost = req.body;
+    //    Trova l'indice dell'ultimo elemento dell'array
+    const lastPostIndex = postsList.length - 1
+    //    Preleva ultimo elemento
+    const lastPost = postsList[lastPostIndex]
+    // Aggiunge la proprietà id al nuovo post partendo dall'ultimo +1
+    newPost.id = lastPost.id + 1
+    // Aggiunge nuovo post all'array
+    postsList.push(newPost);
+    // Restituisce codice 201 (elemento creato) e nuovo post
+    res.statusCode = 201;
+    res.json({
+        message: "Nuovo elemento aggiunto",
+        newPost
+    });
 };
 
 const update = (req, res) => {
@@ -54,11 +74,13 @@ const modify = (req, res) => {
     const postId = req.params.id;
     res.json("modifica alcune proprietà selezionate di un elemento con id:" + postId)
 };
-// Funzione pr eliminare un posts
+
+
+// Funzione pr eliminare un post
 const destroy = (req, res) => {
     // Estrae il parametro e lo converte in numero
     const postId = parseInt(req.params.id);
-//   Trova post con parametro corrispondente e trova il suo indice 
+    //   Trova post con parametro corrispondente e trova il suo indice 
     const postIndex = postsList.findIndex((curPost) => curPost.id === postId)
     //   Se l'indice è -1 (volore su postman in caso di nessun riscontro)
     if (postIndex === -1) {
@@ -73,6 +95,7 @@ const destroy = (req, res) => {
         // Elimina il post e restituisce lo stato 204 di sola conferma senza contenuto
         postsList.splice(postIndex, 1);
         res.sendStatus(204);
+
     }
 };
 
@@ -80,7 +103,7 @@ const destroy = (req, res) => {
 module.exports = {
     index,
     show,
-    create,
+    store,
     update,
     modify,
     destroy

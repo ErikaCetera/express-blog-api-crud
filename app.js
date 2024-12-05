@@ -8,7 +8,7 @@ const port = 3003 ;
 const postsRouter = require("./routers/posts");
 
 
-
+app.use(express.json())
 // Include tutte le rotte che inziano con /posts
 app.use("/posts", postsRouter);
 

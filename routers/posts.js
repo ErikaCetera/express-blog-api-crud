@@ -15,8 +15,8 @@ router.get('/',  postController.index);
 // show - legge i dati di un singolo elemento attraverso un'id
 router.get("/:id", postController.show );
 
-// create - aggiunge un nuovo elemento
-router.post("/", postController.create);
+// store - aggiunge un nuovo elemento
+router.post("/", postController.store);
 
 // update - modifica e sovrascrive tutte le proprietà di un elemento
 router.put("/:id", postController.update);

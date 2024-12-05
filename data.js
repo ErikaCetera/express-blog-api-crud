@@ -9,21 +9,21 @@ const posts = [
       immagine:"photo-blog/images/ciambellone.jpeg"
     },
     {
-      id: 3,
+      id: 2,
       titolo: "Crackers alla Barbabietola",
       contenuto: "I crackers alla barbabietola sono uno snack sano e croccante, ideale per ogni momento della giornata.",
       tags: ["Snack", "Ricette", "Barbabietola"],
       immagine: "photo-blog/images/cracker_barbabietola.jpeg"
     },
     {
-      id: 4,
+      id: 3,
       titolo: "Pane Fritto Dolce",
       contenuto: "Il pane fritto dolce è una golosa variante del pane fritto, arricchita con zucchero e cannella.",
       tags: ["Dolci", "Ricette", "Pane Fritto"],
       immagine: "photo-blog/images/pane_fritto_dolce.jpeg"
     },
     {
-      id: 2,
+      id: 4,
       titolo: "Pasta alla Barbabietola",
       contenuto: "La pasta alla barbabietola è un primo piatto colorato e saporito, perfetto per sorprendere i tuoi ospiti.",
       tags: ["Primi Piatti", "Ricette", "Barbabietola"],
