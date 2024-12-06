@@ -6,6 +6,8 @@ const app = express();
 const port = 3003 ;
 // Importa router dei posts
 const postsRouter = require("./routers/posts");
+// Importa funzione per gestire errore del server
+const handleError = require("./middlewares/handleError")
 
 
 app.use(express.json())
@@ -20,6 +22,8 @@ app.use(express.static('Public'));
     res.send("Server del mio blog");
 
  });
+
+ app.use(handleError);
 
 // Apre il server, in ascolto sulla porta definita
 app.listen(port, () => {
